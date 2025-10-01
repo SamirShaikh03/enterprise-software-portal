@@ -21,9 +21,8 @@ The portal highlights Binary Solutions' services, digital expertise, locations, 
 ## Screenshots
 | Landing Page | Tech Conference Schedule | Client Access Portal |
 | --- | --- | --- |
-| _Add a screenshot (e.g., `assets/screenshots/hero.png`)_ | _Add a screenshot (e.g., `assets/screenshots/schedule.png`)_ | _Add a screenshot (e.g., `assets/screenshots/portal.png`)_ |
-
-> 💡 Tip: Capture screenshots after you run the site locally, then update the table with real image paths.
+| ![Landing Page](assets/screenshots/hero.png) | ![Conference Schedule](assets/screenshots/schedule.png) | ![Client Portal](assets/screenshots/portal.png) |
+| _Hero section with company overview and navigation_ | _Interactive event schedule with registration links_ | _Client access form with validation ready inputs_ |
 
 ## Features
 - **Brand-forward hero section** with marquee hiring notice and company overview.
@@ -32,43 +31,26 @@ The portal highlights Binary Solutions' services, digital expertise, locations, 
 - **Digital expertise carousel-style layout** highlighting capability pillars.
 - **Client access portal** with validation-ready form inputs and gender selection.
 - **Embedded partner iframe** for cross-promotions.
-- **Emerging technologies quiz** (`Software_Company_Website/Quiz.html`) with clear instructions.
+- **Emerging technologies quiz** (`Quiz.html`) with clear instructions.
 - **Modal login & signup dialog** scaffolding for future authentication logic.
 
 ## Project Structure
 ```
-Software_Company_Website/
-├── Assets/
+enterprise-software-portal/
+├── assets/
+│   ├── screenshots/         ← project screenshots
 │   ├── Organization_icon.png
 │   ├── Organization_img.jpg
 │   └── Organization_logo.png
-├── integrated.css
-├── integrated.html      ← primary landing page
-├── integrated.js        ← behaviour hooks & validation stubs
-└── Quiz.html            ← standalone quiz experience
-
-enterprise-software-portal/
-├── assets/              ← shared icons & styles (optional legacy artifacts)
 ├── css/
+│   └── integrated.css      ← main stylesheet
 ├── js/
-├── README.md            ← you are here
-└── …
+│   └── integrated.js       ← interactive functionality
+├── integrated.html         ← primary landing page
+├── Quiz.html              ← standalone quiz experience
+├── LICENSE                ← MIT license
+└── README.md              ← you are here
 ```
-
-If you do not need the legacy `enterprise-software-portal` stub, you can keep everything under `Software_Company_Website` and treat it as the project root.
-
-## Getting Started
-1. **Clone the repository** (after you push it to GitHub):
-   ```powershell
-   git clone https://github.com/<your-username>/enterprise-software-portal.git
-   cd enterprise-software-portal
-   ```
-2. **Open the workspace** in your editor of choice (VS Code recommended).
-3. **Launch the site** by opening `Software_Company_Website/integrated.html` in a modern browser.
-
-### Optional: Live Server
-If you use VS Code, install the _Live Server_ extension, right-click `integrated.html`, and choose **Open with Live Server** for auto-refreshing previews.
-
 ## Usage Tips
 - Use the navigation bar links to jump to on-page sections (`#services`, `#conference`, `#expertise`, etc.).
 - Click **Careers** to open the external Typeform job application.
@@ -76,10 +58,10 @@ If you use VS Code, install the _Live Server_ extension, right-click `integrated
 - Explore the **Quiz** via the call-to-action button at the end of the page.
 
 ## Customization
-- Replace images in `Software_Company_Website/Assets/` with brand-specific media (keep the same filenames or update the HTML references).
+- Replace images in `assets/` with brand-specific media (keep the same filenames or update the HTML references).
 - Update conference data directly within the `<table>` in `integrated.html`.
-- Adjust colors, typography, or layout in `integrated.css`.
-- Enhance interactivity—form validation, quiz scoring, or API integrations—via `integrated.js`.
+- Adjust colors, typography, or layout in `css/integrated.css`.
+- Enhance interactivity—form validation, quiz scoring, or API integrations—via `js/integrated.js`.
 
 ## Tech Stack
 - **HTML5** for semantic structure.
@@ -97,7 +79,7 @@ If you use VS Code, install the _Live Server_ extension, right-click `integrated
 ## Contributing
 1. Fork the repository and clone your fork.
 2. Create a feature branch:
-   ```powershell
+   ```bash
    git checkout -b feature/amazing-improvement
    ```
 3. Commit changes following conventional commits if possible.
