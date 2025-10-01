@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Innovation and Emerging Technologies Quiz</title>
+  <style>
+    body {
+      background-color: #f3f4f6;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c3e50;
+      font-size: 3rem;
+      margin-top: 20px;
+    }
+    .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1abc9c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+    margin-top: 20px;
+  }
+   .btn:hover {
+    background-color: #16a085;
+    transform: translateY(-3px);
+  }
+  .fcontainer {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 40px;
+    align-items: left;
+}
+    #fh1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    }
+    p {
+      font-size: 1.2rem;
+      line-height: 1.5;
+    }
+    ul {
+      list-style-type: disc;
+      text-align: left;
+      margin-left: 10rem;
+    }
+    ul li {
+    margin-bottom: 10px; 
+    line-height: 1.6;
+}
+  </style>
+</head>
+<body>
+  <div class="fcontainer">
+    <h1 id="fh1">Emerging Technologies Quiz 2025</h1>
+    <p><strong>Instructions</strong></p>
+    <ul>
+        <li>Answer all 6 questions to complete the quiz.</li>
+        <li>Each question has only one correct answer.</li>
+        <li>Ensure you have a stable internet connection while taking the quiz.</li>
+    </ul>
+    <p><strong>Precautions:</strong></p>
+    <ul>
+        <li>Do not refresh the page during the quiz.</li>
+        <li>Provide your correct name and email to proceed.</li>
+        <li>Read each question carefully before answering.</li>
+    </ul>
+    <a href="Quiz.html" class="btn">Start Quiz</a>
+  </div>
+  <script>
+    const quizQuestions = [
+      {
+        question: "What is the purpose of quantum computing?",
+        options: [
+          "To perform calculations using classical bits",
+          "To solve complex problems faster using quantum bits",
+          "To store data in the cloud",
+          "To replace traditional computers entirely"
+        ],
+        correctAnswer: "To solve complex problems faster using quantum bits"
+      },
+      {
+        question: "Which technology is used to create virtual environments?",
+        options: [
+          "Blockchain",
+          "Virtual Reality (VR)",
+          "Artificial Intelligence (AI)",
+          "Internet of Things (IoT)"
+        ],
+        correctAnswer: "Virtual Reality (VR)"
+      },
+      {
+        question: "What does IoT stand for?",
+        options: [
+          "Internet of Technology",
+          "Internet of Things",
+          "Innovation of Technology",
+          "Integration of Tools"
+        ],
+        correctAnswer: "Internet of Things"
+      },
+      {
+        question: "Which technology is commonly used for decentralized digital currencies?",
+        options: [
+          "Blockchain",
+          "Machine Learning",
+          "Quantum Computing",
+          "Cloud Computing"
+        ],
+        correctAnswer: "Blockchain"
+      },
+      {
+        question: "What is the primary goal of AI-driven solutions?",
+        options: [
+          "To replace human workers",
+          "To enhance decision-making and automate tasks",
+          "To create physical robots",
+          "To store data securely"
+        ],
+        correctAnswer: "To enhance decision-making and automate tasks"
+      },
+      {
+        question: "Which emerging technology focuses on reducing energy consumption in data centers?",
+        options: [
+          "Green Computing",
+          "Quantum Computing",
+          "Blockchain",
+          "Augmented Reality"
+        ],
+        correctAnswer: "Green Computing"
+      }
+    ];
+
+    let score = 0;
+    let userData = {};
+    const userName = prompt("Enter your Name:");
+    const email = prompt("Enter your Email ID:");
+    userData = { userName, email };
+    alert(`Welcome, ${userName}! Answer all 6 questions correctly to win the exciting Goodies.`);
+    function displayQuestion(index) {
+      if (index < quizQuestions.length) {
+        const q = quizQuestions[index];
+        const userResponse = prompt(`${index + 1}. ${q.question}\n\n${q.options.join('\n')}`);
+        if (userResponse) {
+          validateAnswer(userResponse, q.correctAnswer, index);
+        } else {
+          alert("Please select an answer.");
+          displayQuestion(index);
+        }
+      } else {
+        endQuiz();
+      }
+    }
+    function validateAnswer(userResponse, correctAnswer, index) {
+      if (userResponse.trim().toLowerCase() === correctAnswer.toLowerCase()) {
+        alert("Correct Answer!");
+        score++;
+      } else {
+        alert(`Incorrect Answer. The correct answer is: ${correctAnswer}`);
+      }
+      displayQuestion(index + 1);
+    }
+    function endQuiz() {
+      alert(`Quiz Completed! Your Final Score is: ${score}/${quizQuestions.length}`);
+      if (score === quizQuestions.length) {
+        alert(`Congratulations, ${userData.userName}! You scored ${score}/${quizQuestions.length} and you have won the goodies. We will send you an email shortly.`);
+      } else {
+        alert(`Good effort, ${userData.userName}! You scored ${score}/${quizQuestions.length}. Keep learning about emerging technologies!`);
+      }
+    }
+    displayQuestion(0);
+  </script>
+</body>
+</html>
