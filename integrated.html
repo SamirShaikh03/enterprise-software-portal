@@ -9,7 +9,6 @@
     <link rel="icon" href="assets/Organization_icon.png" type="image/png">
 
     <style>
-      #overlay { display: none !important; }
       #main-content { position: relative; z-index: 10; }
       img { max-width: 100%; height: auto; display: block; }
     </style>
@@ -18,17 +17,50 @@
 <div id="overlay"></div>
 <div id="main-content">
   <!-- Navigation Bar -->
-  <div class="navbar">
+  <header class="navbar">
     <div class="navlogo">
         <img src="assets/Organization_logo.png" alt="Binary Solutions Logo">
     </div>
-    <a href="#Home" class="border"><i class="fa-solid fa-house"></i>Home</a>
-       <a href="#services" class="border"><i class="fas fa-laptop-code"></i> Services</a>
-       <a href="#conference" class="border"><i class="fa-regular fa-calendar-days"></i> Events</a>
-       <a href="#expertise" class="border"><i class="fas fa-briefcase"></i> Digital Expertise</a>
-       <a href="https://form.typeform.com/to/oQFoq4Ep" class="border" target="_blank" rel="noopener noreferrer"><i class="fas fa-user-tie"></i> Careers</a>
-       <a href="#" class="border" id="loginLink"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-  </div>
+    <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#Home" class="border"><i class="fa-solid fa-house"></i>Home</a>
+      <a href="#services" class="border"><i class="fas fa-laptop-code"></i> Services</a>
+      <a href="#conference" class="border"><i class="fa-regular fa-calendar-days"></i> Events</a>
+      <a href="#expertise" class="border"><i class="fas fa-briefcase"></i> Digital Expertise</a>
+      <a href="https://form.typeform.com/to/oQFoq4Ep" class="border" target="_blank" rel="noopener noreferrer"><i class="fas fa-user-tie"></i> Careers</a>
+      <a href="#" class="border" id="loginLink"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+      <div class="nav-profile" id="navProfile" aria-hidden="true">
+        <button type="button" class="profile-trigger" id="profileTrigger" aria-haspopup="true" aria-expanded="false">
+          <span class="profile-initials" id="profileInitials" aria-hidden="true">SS</span>
+          <span class="sr-only">Open profile card</span>
+        </button>
+        <div class="profile-card" id="profileCard" role="dialog" aria-modal="false">
+          <div class="profile-card-header">
+            <span class="profile-card-name" id="profileName">Samir Shaikh</span>
+            <span class="profile-card-email" id="profileEmail">samir.shaikh@example.com</span>
+          </div>
+          <div class="profile-card-details">
+            <div class="profile-detail">
+              <span class="detail-label">Employee ID</span>
+              <span class="detail-value" id="profileEmployeeId">BS001</span>
+            </div>
+            <div class="profile-detail">
+              <span class="detail-label">Department</span>
+              <span class="detail-value" id="profileDepartment">Technology</span>
+            </div>
+          </div>
+          <button type="button" class="profile-logout" id="profileLogout">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
     <!-- Header Section -->
     <div class="header" id="Home">
         <div class="hiring">
@@ -103,9 +135,10 @@
       <b>
         <marquee scrollamount=15 >WELCOME TO TECH INNOVATE 2025</marquee>
     </b>
-        <div class="container">
-            <h1>TECH INNOVATE 2025 - EVENT SCHEDULE</h1>
-            <table>
+    <div class="container">
+      <h1>TECH INNOVATE 2025 - EVENT SCHEDULE</h1>
+      <div class="table-scroll">
+      <table>
                 <tr>
                     <th>Event ID</th>
                     <th>Event Name</th>
@@ -217,6 +250,7 @@
                   <td><a href="https://form.typeform.com/to/WZi98OFU" class="btn" target="_blank" rel="noopener noreferrer">Register</a></td>
               </tr>
             </table>
+            </div>
         </div>
     </div>
     <!-- Digital Expertise Section -->
@@ -351,61 +385,56 @@
     </footer>
     </div>
      <!-- Login Box -->
-     <div class="lscontainer" id="loginContainer">
-        <div class="closeBtn" onclick="closeLoginbox()">×</div>
-        <h2>Login</h2>
-        <form id="loginForm" onsubmit="return validateLoginForm()">
-          <label for="employeeId">Employee ID</label>
-          <input type="text" id="employeeId" name="employeeId" placeholder="Enter your Employee ID">
-          <div class="select">
-            <label for="loginDepartment">Department</label>
-            <select id="loginDepartment" name="loginDepartment">
-              <option value="">Select your department</option>
-              <option value="HR">HR</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Sales">Sales</option>
-              <option value="Finance">Finance</option>
-            </select>
-          </div>
+     <div class="lscontainer" id="loginContainer" role="dialog" aria-modal="true" aria-labelledby="loginTitle" aria-hidden="true">
+        <button type="button" class="closeBtn" aria-label="Close dialog" onclick="closeLoginbox()">×</button>
+        <h2 id="loginTitle">Login</h2>
+        <p class="form-subtitle">Access your Binary Solutions portal</p>
+        <form id="loginForm" novalidate>
+          <div class="form-message" id="loginMessage" aria-live="polite"></div>
+          <label for="loginIdentifier">Employee ID or Email</label>
+          <input type="text" id="loginIdentifier" name="loginIdentifier" placeholder="E.g., EMP102 or jane@binary.com" autocomplete="username" required>
           <label for="loginPassword">Password</label>
-          <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password">
-          <label for="loginConfirmPassword">Confirm Password</label>
-          <input type="password" id="loginConfirmPassword" name="loginConfirmPassword" placeholder="Confirm your password">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
-          <input type="submit" value="Login">
-        </form>
-        <span class="toggle-link" onclick="toggleForm()">Don't have an account? Sign Up</span>
-      </div>
-      <div class="lscontainer" id="signupContainer" style="display: none;">
-        <button class="closeBtn" onclick="closeLoginbox()">×</button>
-        <h2>Sign Up</h2>
-        <form id="signupForm" onsubmit="return validateSignupForm()">
-          <label for="signupEmployeeId">Employee ID</label>
-          <input type="text" id="signupEmployeeId" name="signupEmployeeId" placeholder="Enter your Employee ID">
-          <label for="signupFullName">Full Name</label>
-          <input type="text" id="signupFullName" name="signupFullName" placeholder="Enter your full name">
-          <label for="signupEmail">Email</label>
-          <input type="email" id="signupEmail" name="signupEmail" placeholder="Enter your email">
-          <div class="select">
-            <label for="signupDepartment">Department</label>
-            <select id="signupDepartment" name="signupDepartment">
-              <option value="">Select your department</option>
-              <option value="HR">HR</option>
-              <option value="Engineering">Engineering</option>
-              <option value="Marketing">Marketing</option>
-              <option value="Sales">Sales</option>
-              <option value="Finance">Finance</option>
-            </select>
+          <input type="password" id="loginPassword" name="loginPassword" placeholder="Enter your password" autocomplete="current-password" required minlength="6">
+          <div class="form-actions">
+            <button type="submit" class="auth-btn">Login</button>
           </div>
-          <label for="signupPassword">Password</label>
-          <input type="password" id="signupPassword" name="signupPassword" placeholder="Enter your password">
-          <label for="signupConfirmPassword">Confirm Password</label>
-          <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Confirm your password">
-          <input type="submit" value="Submit">
         </form>
-        <span class="toggle-link" onclick="toggleForm()">Already have an account? Login</span>
+        <button type="button" class="toggle-link" onclick="toggleForm('signup')">Don't have an account? Sign Up</button>
+      </div>
+      <div class="lscontainer" id="signupContainer" role="dialog" aria-modal="true" aria-labelledby="signupTitle" aria-hidden="true">
+        <button type="button" class="closeBtn" aria-label="Close dialog" onclick="closeLoginbox()">×</button>
+        <h2 id="signupTitle">Create an Account</h2>
+        <p class="form-subtitle">Join the Binary Solutions workspace</p>
+        <form id="signupForm" novalidate>
+          <div class="form-message" id="signupMessage" aria-live="polite"></div>
+          <label for="signupEmployeeId">Employee ID</label>
+          <input type="text" id="signupEmployeeId" name="signupEmployeeId" placeholder="E.g., EMP102" autocomplete="off" required>
+          <label for="signupFullName">Full Name</label>
+          <input type="text" id="signupFullName" name="signupFullName" placeholder="Enter your full name" autocomplete="name" required>
+          <label for="signupEmail">Email</label>
+          <input type="email" id="signupEmail" name="signupEmail" placeholder="Enter your email" autocomplete="email" required>
+          <label for="signupDepartment">Department</label>
+          <select id="signupDepartment" name="signupDepartment" required>
+            <option value="">Select your department</option>
+            <option value="HR">HR</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Sales">Sales</option>
+            <option value="Finance">Finance</option>
+          </select>
+          <div class="form-grid">
+            <div>
+              <label for="signupPassword">Password</label>
+              <input type="password" id="signupPassword" name="signupPassword" placeholder="Create a password" autocomplete="new-password" required minlength="6">
+            </div>
+            <div>
+              <label for="signupConfirmPassword">Confirm Password</label>
+              <input type="password" id="signupConfirmPassword" name="signupConfirmPassword" placeholder="Confirm password" autocomplete="new-password" required minlength="6">
+            </div>
+          </div>
+          <button type="submit" class="auth-btn">Create account</button>
+        </form>
+        <button type="button" class="toggle-link" onclick="toggleForm('login')">Already have an account? Login</button>
       </div>
 </body>
 <script src="js/integrated.js"></script>
