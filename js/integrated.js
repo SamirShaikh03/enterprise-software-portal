@@ -1,5 +1,6 @@
 // Intersection Observer for fade-in animations
 document.addEventListener('DOMContentLoaded', function() {
+    
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -399,9 +400,18 @@ function handleSignupSubmit(event) {
     setTimeout(() => {
         signupFormEl.reset();
         setFormMessage(signupMessageEl, null, '');
-        showAuthModal('login', { preserveMessages: true });
-        setFormMessage(loginMessageEl, 'success', 'Account ready! Please sign in to continue.');
-        focusFirstField(loginContainerEl);
+        
+        // Show email verification modal instead of login
+        const signupContainer = document.getElementById('signupContainer');
+        if (signupContainer) {
+            signupContainer.classList.remove('active');
+            signupContainer.setAttribute('aria-hidden', 'true');
+        }
+        
+        // Show verification modal with user's email
+        const emailField = signupFormEl.querySelector('#signupEmail');
+        const userEmail = emailField?.value || 'your email';
+        showVerificationModal(userEmail);
     }, 1100);
 }
 
@@ -598,6 +608,240 @@ document.addEventListener('DOMContentLoaded', function() {
                 navToggle.classList.remove('open');
                 navToggle.setAttribute('aria-expanded', 'false');
             }
+        });
+    }
+
+    // Password Strength Indicator
+    const signupPasswordInput = document.getElementById('signupPassword');
+    const passwordStrengthEl = document.getElementById('passwordStrength');
+    
+    if (signupPasswordInput && passwordStrengthEl) {
+        signupPasswordInput.addEventListener('input', function() {
+            const password = this.value;
+            const strengthData = calculatePasswordStrength(password);
+            
+            passwordStrengthEl.setAttribute('data-strength', strengthData.level);
+            const strengthText = passwordStrengthEl.querySelector('.strength-text');
+            if (strengthText) {
+                strengthText.textContent = strengthData.text;
+            }
+        });
+    }
+
+    // Remember Me functionality
+    const rememberMeCheckbox = document.getElementById('rememberMe');
+    if (rememberMeCheckbox) {
+        // Check if we should remember the user
+        const rememberedUser = localStorage.getItem('rememberedUser');
+        if (rememberedUser) {
+            const userData = safeParse(rememberedUser);
+            if (userData) {
+                const loginIdentifier = document.getElementById('loginIdentifier');
+                if (loginIdentifier) {
+                    loginIdentifier.value = userData.identifier || '';
+                }
+                rememberMeCheckbox.checked = true;
+            }
+        }
+    }
+
+    // Update login submit to handle remember me
+    const originalHandleLoginSubmit = handleLoginSubmit;
+    if (loginFormEl) {
+        loginFormEl.removeEventListener('submit', handleLoginSubmit);
+        loginFormEl.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const identifier = String(formData.get('loginIdentifier') || '').trim();
+            const rememberMe = formData.get('rememberMe') === 'on';
+            
+            if (rememberMe) {
+                localStorage.setItem('rememberedUser', JSON.stringify({ identifier }));
+            } else {
+                localStorage.removeItem('rememberedUser');
+            }
+            
+            originalHandleLoginSubmit.call(this, event);
+        });
+    }
+});
+
+// Password Strength Calculator
+function calculatePasswordStrength(password) {
+    if (!password) {
+        return { level: '', text: 'Enter a password' };
+    }
+    
+    let strength = 0;
+    const checks = {
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        numbers: /[0-9]/.test(password),
+        special: /[^A-Za-z0-9]/.test(password)
+    };
+    
+    strength += checks.length ? 1 : 0;
+    strength += checks.uppercase ? 1 : 0;
+    strength += checks.lowercase ? 1 : 0;
+    strength += checks.numbers ? 1 : 0;
+    strength += checks.special ? 1 : 0;
+    
+    if (strength <= 2) {
+        return { level: 'weak', text: 'Weak password' };
+    } else if (strength === 3) {
+        return { level: 'fair', text: 'Fair password' };
+    } else if (strength === 4) {
+        return { level: 'good', text: 'Good password' };
+    } else {
+        return { level: 'strong', text: 'Strong password' };
+    }
+}
+
+// Forgot Password Functions
+function showForgotPassword() {
+    const loginContainer = document.getElementById('loginContainer');
+    const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
+    const overlay = document.getElementById('overlay');
+    
+    if (loginContainer) {
+        loginContainer.classList.remove('active');
+        loginContainer.setAttribute('aria-hidden', 'true');
+    }
+    
+    if (forgotPasswordContainer && overlay) {
+        forgotPasswordContainer.classList.add('active');
+        forgotPasswordContainer.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('active');
+        
+        // Focus on email input
+        const resetEmailInput = document.getElementById('resetEmail');
+        if (resetEmailInput) {
+            setTimeout(() => resetEmailInput.focus(), 100);
+        }
+    }
+}
+
+function closeForgotPassword() {
+    const forgotPasswordContainer = document.getElementById('forgotPasswordContainer');
+    const overlay = document.getElementById('overlay');
+    
+    if (forgotPasswordContainer) {
+        forgotPasswordContainer.classList.remove('active');
+        forgotPasswordContainer.setAttribute('aria-hidden', 'true');
+        
+        // Reset form
+        const form = document.getElementById('forgotPasswordForm');
+        if (form) form.reset();
+        
+        // Clear messages
+        const message = document.getElementById('forgotPasswordMessage');
+        if (message) {
+            message.textContent = '';
+            message.className = 'form-message';
+        }
+    }
+    
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+function backToLogin() {
+    closeForgotPassword();
+    setTimeout(() => {
+        const loginContainer = document.getElementById('loginContainer');
+        const overlay = document.getElementById('overlay');
+        
+        if (loginContainer && overlay) {
+            loginContainer.classList.add('active');
+            loginContainer.setAttribute('aria-hidden', 'false');
+            overlay.classList.add('active');
+        }
+    }, 100);
+}
+
+// Email Verification Functions
+function showVerificationModal(email) {
+    const verificationContainer = document.getElementById('verificationContainer');
+    const overlay = document.getElementById('overlay');
+    
+    if (verificationContainer && overlay) {
+        // Close signup modal first
+        const signupContainer = document.getElementById('signupContainer');
+        if (signupContainer) {
+            signupContainer.classList.remove('active');
+            signupContainer.setAttribute('aria-hidden', 'true');
+        }
+        
+        // Show verification modal
+        verificationContainer.classList.add('active');
+        verificationContainer.setAttribute('aria-hidden', 'false');
+        overlay.classList.add('active');
+        
+        // Store email for resend functionality
+        verificationContainer.setAttribute('data-email', email);
+    }
+}
+
+function closeVerification() {
+    const verificationContainer = document.getElementById('verificationContainer');
+    const overlay = document.getElementById('overlay');
+    
+    if (verificationContainer) {
+        verificationContainer.classList.remove('active');
+        verificationContainer.setAttribute('aria-hidden', 'true');
+    }
+    
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+}
+
+function resendVerification() {
+    const verificationContainer = document.getElementById('verificationContainer');
+    const email = verificationContainer ? verificationContainer.getAttribute('data-email') : '';
+    
+    // Mock resend verification
+    showToast('Verification email resent to ' + email, 'success');
+}
+
+// Handle Forgot Password Form Submit
+document.addEventListener('DOMContentLoaded', function() {
+    const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+    if (forgotPasswordForm) {
+        forgotPasswordForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const email = String(formData.get('resetEmail') || '').trim();
+            const messageEl = document.getElementById('forgotPasswordMessage');
+            
+            if (!email) {
+                if (messageEl) {
+                    messageEl.textContent = 'Please enter your email address';
+                    messageEl.className = 'form-message error';
+                }
+                return;
+            }
+            
+            if (!isValidEmail(email)) {
+                if (messageEl) {
+                    messageEl.textContent = 'Please enter a valid email address';
+                    messageEl.className = 'form-message error';
+                }
+                return;
+            }
+            
+            // Mock password reset
+            if (messageEl) {
+                messageEl.textContent = 'Password reset link sent to ' + email;
+                messageEl.className = 'form-message success';
+            }
+            
+            setTimeout(() => {
+                closeForgotPassword();
+                showToast('Check your email for reset instructions', 'success');
+            }, 2000);
         });
     }
 });

@@ -79,9 +79,15 @@ enterprise-software-portal/
 - [x] **Mobile Optimization** - Full viewport hero section on mobile devices
 - [x] **Department Dropdown Styling** - Custom select styling with gradients
 - [x] **Toast Notifications** - User feedback system for auth actions
-- [ ] **Password Strength Indicator** - Real-time password security feedback
-- [ ] **Remember Me Functionality** - Extended session persistence
-- [ ] **Email Verification** - Mock email verification workflow
+- [x] **Password Strength Indicator** - Real-time password security feedback with visual meter
+- [x] **Remember Me Functionality** - Extended session persistence with checkbox
+- [x] **Email Verification** - Mock email verification workflow with steps UI
+- [x] **Forgot Password** - Password reset workflow with email verification
+- [x] **Animated Background** - Floating particle effects throughout the site
+- [x] **Enhanced Organization Image** - Interactive overlay with hover effects
+- [ ] **Two-Factor Authentication** - OTP-based 2FA for enhanced security
+- [ ] **Social Login Integration** - OAuth login with Google, LinkedIn, GitHub
+- [ ] **Dark Mode Toggle** - System-aware theme switching capability
 
 ## Contributing
 1. Fork the repository and clone your fork.
