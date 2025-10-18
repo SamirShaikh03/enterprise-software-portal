@@ -303,7 +303,7 @@ html {
 
 /* Trusted By Section */
 .trusted-by-section {
-    background: linear-gradient(135deg, #8847e5 2%, #e8f0fe 100%);
+    background: linear-gradient(135deg, #301fedeb 2% 2%, #e8f0fe 100%);
     padding: 99px 2rem;
     overflow: hidden;
 }
@@ -339,7 +339,7 @@ html {
     gap: 0.75rem;
     min-width: 150px;
     min-height: 150px;
-    background-color: #c6bcff;
+    background: linear-gradient(135deg, #73e0ead1 22%, #ffffff 100%);
     border-radius: 1000px;
 }
 
@@ -347,7 +347,7 @@ html {
     font-size: 5rem;
     align-self: center;
     margin-top: 10px;
-    color: #275595;
+    color: #002358;
     transition: color 0.3s ease;
 }
 
@@ -681,9 +681,9 @@ button i {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
     border-radius: 24px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
-    max-width: 900px;
-    margin: 64px auto;
-    padding: 56px 64px;
+    max-width: 800px;
+    margin: 44px auto;
+    padding: 46px 64px;
     border: 1px solid rgba(26, 188, 156, 0.08);
 }
 
@@ -692,9 +692,9 @@ button i {
     color: #1a2c55;
     font-weight: 800;
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     position: relative;
-    padding-bottom: 1rem;
+    padding-bottom: 5px;
 }
 
 #fh1::after {
@@ -1040,23 +1040,25 @@ h2 {
 
 /* Services Section */
 .services-section {
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 64px auto;
-    padding: 0 32px;
+    padding: 30px 32px;
 }
 .services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 28px;
+    gap: 35px;
 }
 .service-card {
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fb 100%);
-    padding: 36px 32px;
+    padding: 76px 16px;
     border-radius: 20px;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(26, 188, 156, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: center;
+    width: 320px;
+    
 }
 .service-card:hover {
     transform: translateY(-8px);
@@ -1364,7 +1366,7 @@ table, th, td {
 }
 
 th, td {
-    padding: 15px;
+    padding: 16px;
     text-align: left;
     font-size: 1rem;
 }
@@ -1374,7 +1376,7 @@ th {
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #edf3ff;
 }
 
 tr:hover {
@@ -1405,7 +1407,7 @@ tr:hover {
 .btn {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #1abc9c;
+    background-color: #138a73;
     color: white;
     border: none;
     border-radius: 5px;
@@ -1429,8 +1431,8 @@ tr:hover {
 }
 .tech-conference marquee{
     background: linear-gradient(90deg, #141e30, #243b55);
-    padding: 1rem;
-    border-radius: 1rem;
+    padding: 10px;
+    border-radius: 8rem;
     display: block;
     margin: 0 auto;
     max-width: 960px;
@@ -1452,7 +1454,7 @@ tr:hover {
     overflow: hidden;
 }
 .tech-conference th {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgb(0 7 63 / 70%);
 }
 .tech-conference tr:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -1618,8 +1620,8 @@ form {
     gap: 2.5rem;
     text-align: center;
     margin: 80px auto;
-    max-width: 1200px;
-    padding: 64px 32px;
+    max-width: 1400px;
+    padding: 44px 32px;
     background: linear-gradient(135deg, #f8f9fb 0%, #e8f0fe 100%);
     border-radius: 32px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
