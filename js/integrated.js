@@ -845,3 +845,186 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// ========================================
+// EVENT SLIDER FUNCTIONALITY
+// ========================================
+document.addEventListener('DOMContentLoaded', function() {
+    const slider = document.querySelector('.events-slider');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const indicatorsContainer = document.querySelector('.slider-indicators');
+    const cards = document.querySelectorAll('.event-card');
+    
+    if (!slider || !prevBtn || !nextBtn || !indicatorsContainer || cards.length === 0) {
+        return;
+    }
+    
+    let currentIndex = 0;
+    let startX = 0;
+    let isDragging = false;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let cardsPerView = getCardsPerView();
+    
+    // Determine how many cards to show based on screen width
+    function getCardsPerView() {
+        const width = window.innerWidth;
+        if (width >= 1200) return 3; // Large Desktop: 3 cards
+        if (width >= 769) return 2;  // Medium/Tablet: 2 cards
+        return 1;                     // Mobile: 1 card
+    }
+    
+    // Calculate total pages
+    function getTotalPages() {
+        return Math.ceil(cards.length / cardsPerView);
+    }
+    
+    // Create indicators based on total pages
+    function createIndicators() {
+        indicatorsContainer.innerHTML = '';
+        const totalPages = getTotalPages();
+        
+        for (let i = 0; i < totalPages; i++) {
+            const indicator = document.createElement('div');
+            indicator.classList.add('indicator');
+            if (i === 0) indicator.classList.add('active');
+            indicator.addEventListener('click', () => goToPage(i));
+            indicatorsContainer.appendChild(indicator);
+        }
+        
+        // Update indicators reference
+        return document.querySelectorAll('.indicator');
+    }
+    
+    let indicators = createIndicators();
+    
+    function updateSlider(smooth = true) {
+        const cardWidth = cards[0].offsetWidth;
+        const gap = cardsPerView === 1 ? 0 : 20;
+        const offset = currentIndex * cardsPerView * (cardWidth + gap);
+        
+        slider.style.transition = smooth ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+        slider.style.transform = `translateX(-${offset}px)`;
+        
+        // Update indicators
+        indicators.forEach((indicator, index) => {
+            indicator.classList.toggle('active', index === currentIndex);
+        });
+        
+        // Update button states
+        const totalPages = getTotalPages();
+        prevBtn.disabled = currentIndex === 0;
+        nextBtn.disabled = currentIndex >= totalPages - 1;
+        
+        prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        nextBtn.style.opacity = currentIndex >= totalPages - 1 ? '0.5' : '1';
+        prevBtn.style.cursor = currentIndex === 0 ? 'not-allowed' : 'pointer';
+        nextBtn.style.cursor = currentIndex >= totalPages - 1 ? 'not-allowed' : 'pointer';
+    }
+    
+    function goToPage(pageIndex) {
+        const totalPages = getTotalPages();
+        currentIndex = Math.max(0, Math.min(pageIndex, totalPages - 1));
+        updateSlider();
+    }
+    
+    function nextSlide() {
+        const totalPages = getTotalPages();
+        if (currentIndex < totalPages - 1) {
+            currentIndex++;
+            updateSlider();
+        }
+    }
+    
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex--;
+            updateSlider();
+        }
+    }
+    
+    // Button event listeners
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+    
+    // Touch and mouse drag events
+    slider.addEventListener('touchstart', touchStart, { passive: true });
+    slider.addEventListener('touchmove', touchMove, { passive: false });
+    slider.addEventListener('touchend', touchEnd);
+    slider.addEventListener('mousedown', touchStart);
+    slider.addEventListener('mousemove', touchMove);
+    slider.addEventListener('mouseup', touchEnd);
+    slider.addEventListener('mouseleave', touchEnd);
+    
+    function touchStart(e) {
+        isDragging = true;
+        startX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        const cardWidth = cards[0].offsetWidth;
+        const gap = cardsPerView === 1 ? 0 : 20;
+        prevTranslate = currentIndex * cardsPerView * (cardWidth + gap);
+        slider.style.cursor = 'grabbing';
+    }
+    
+    function touchMove(e) {
+        if (!isDragging) return;
+        
+        const currentX = e.type.includes('mouse') ? e.pageX : e.touches[0].clientX;
+        const diff = currentX - startX;
+        currentTranslate = prevTranslate - diff;
+        
+        // Prevent default only if we're actually dragging significantly
+        if (Math.abs(diff) > 10) {
+            e.preventDefault();
+        }
+        
+        slider.style.transition = 'none';
+        slider.style.transform = `translateX(-${currentTranslate}px)`;
+    }
+    
+    function touchEnd() {
+        if (!isDragging) return;
+        
+        isDragging = false;
+        slider.style.cursor = 'grab';
+        
+        const cardWidth = cards[0].offsetWidth;
+        const gap = cardsPerView === 1 ? 0 : 20;
+        const movedBy = currentTranslate - prevTranslate;
+        const threshold = cardWidth / 4; // More sensitive threshold
+        
+        const totalPages = getTotalPages();
+        
+        if (movedBy > threshold && currentIndex < totalPages - 1) {
+            currentIndex++;
+        } else if (movedBy < -threshold && currentIndex > 0) {
+            currentIndex--;
+        }
+        
+        updateSlider();
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'ArrowRight') nextSlide();
+    });
+    
+    // Update on window resize
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const newCardsPerView = getCardsPerView();
+            if (newCardsPerView !== cardsPerView) {
+                cardsPerView = newCardsPerView;
+                currentIndex = 0; // Reset to first page on layout change
+                indicators = createIndicators();
+            }
+            updateSlider(false);
+        }, 250);
+    });
+    
+    // Initial setup
+    updateSlider(false);
+});
