@@ -723,13 +723,13 @@ button i {
 }
 .navlogo img {
     display: block;
-    margin-top: 30px;
-    margin-left: 150px;
-    width: 290px;
-    height: auto;
+    margin-top: 2px;
+    margin-left: 160px;
+    width: 200px;
+    height: 100px;
     object-fit: contain;
-    clip-path: inset(0 0 8rem 0);
     position: relative;
+    clip-path: inset(0 0 0.8rem 0);
     z-index: 100;
 }
 .navbar a:hover {
@@ -2908,20 +2908,6 @@ body.modal-open {
     }
 
     /* Ensure logo is visible on smaller screens */
-    .navlogo img {
-        width: 200px !important;
-        max-width: 46vw !important;
-        margin: 8px 12px !important;
-        margin-left: 12px !important;
-        margin-top: 8px !important;
-        height: auto !important;
-        object-fit: contain !important;
-        clip-path: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        display: block !important;
-        z-index: 1200 !important;
-    }
     .navlogo {
     display: flex;
     align-items: center;
@@ -2930,12 +2916,16 @@ body.modal-open {
     position: relative;
     }
     .navlogo img {
-        width: 180px;
-        margin-left: 10px;
-        margin-top: 20px;
-        clip-path: inset(0 0 7rem 0);
+        display: block;
+        margin-top: 2px;
+        margin-left: 160px;
+        width: 200px;
+        height: 100px;
+        object-fit: contain;
+        position: relative;
+        clip-path: inset(0 0 0.8rem 0);
+        z-index: 100;
     }
-    
     .nav-toggle {
         display: flex;
     }
@@ -3215,16 +3205,22 @@ body.modal-open {
         height: 70px;
     }
     .navlogo {
-        margin-right: 0;
-        margin-left: 0;
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    z-index: 100;
+    position: relative;
     }
     .navlogo img {
-        width: 130px !important;
-        margin: 0 !important;
-        margin-left: 5px !important;
-        margin-top: 15px !important;
-        clip-path: inset(0 0 calc(100% - 50px) 0) !important;
-        z-index: 999;
+        display: block;
+        margin-top: 30px;
+        margin-left: 150px;
+        width: 290px;
+        height: auto;
+        object-fit: contain;
+        clip-path: inset(0 0 8rem 0);
+        position: relative;
+        z-index: 100;
     }
     
     /* Event Slider Mobile - Ultra Optimized */
